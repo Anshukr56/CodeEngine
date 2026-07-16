@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeEngine | Online Code Editor</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CodeMirror -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/dracula.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/monokai.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/ayu-dark.css"
+    />
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-pattern"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <div class="logo">
+          <i class="bi bi-code-slash"></i>
+        </div>
+        <h1>CodeEngine</h1>
+        <span class="tag">Beta</span>
+      </div>
+      <div class="nav-links">
+        <button class="icon-toggle" id="lightModeBtn" title="Light mode">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button class="icon-toggle active" id="darkModeBtn" title="Dark mode">
+          <i class="bi bi-moon-stars"></i>
+        </button>
+        <select id="cmTheme" title="Editor theme">
+          <option value="dracula">Dracula</option>
+          <option value="monokai">Monokai</option>
+          <option value="material-darker">Material</option>
+          <option value="ayu-dark">Ayu Dark</option>
+        </select>
+        <a href="#" class="nav-link" title="GitHub"
+          ><i class="bi bi-github"></i
+        ></a>
+        <a href="#" class="nav-link" title="Help"
+          ><i class="bi bi-question-circle"></i
+        ></a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Left Panel: Code Editor -->
+      <div class="editor-box">
+        <div class="editor-header">
+          <div class="tab-bar" id="tabBar">
+            <div class="tab active" data-index="0" data-lang="cpp">
+              <i class="bi bi-filetype-cpp"></i>
+              <span class="tab-name">main.cpp</span>
+              <i class="bi bi-x tab-close" title="Close tab"></i>
+            </div>
+            <button class="add-tab-btn" id="addTabBtn" title="New file">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
+          <div class="header-actions">
+            <select id="language">
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+              <option value="python">Python</option>
+            </select>
+            <div class="buttons">
+              <button class="btn run" id="runBtn" title="Run Code (Ctrl+Enter)">
+                <i class="bi bi-play-fill"></i> Run
+                <span class="shortcut">Ctrl+Enter</span>
+              </button>
+              <button class="btn clear" id="clearBtn" title="Reset Code">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+              <button
+                class="btn download"
+                id="downloadBtn"
+                title="Download Code"
+              >
+                <i class="bi bi-download"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="editor-wrapper">
+          <!-- CodeMirror will replace this -->
+          <textarea id="code">
+// Write your code here...
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}</textarea
+          >
+        </div>
+        <div class="editor-footer">
+          <span class="status"><i class="bi bi-circle-fill"></i> Ready</span>
+          <span class="cursor-info" id="cursorInfo">Ln 1, Col 1</span>
+          <span class="file-info" id="fileInfo">UTF-8 | C++</span>
+        </div>
+      </div>
+
+      <!-- Right Panel: Input/Output -->
+      <div class="io-box">
+        <div class="io-section">
+          <div class="io-header">
+            <h3><i class="bi bi-input-cursor-text"></i> Input</h3>
+            <button class="io-clear" id="inputClearBtn" title="Clear Input">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <textarea id="input" placeholder="Enter input here..."></textarea>
+        </div>
+        <div class="io-section output-section">
+          <div class="io-header">
+            <h3><i class="bi bi-terminal"></i> Output</h3>
+            <button class="io-copy" id="copyBtn" title="Copy Output">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+          <pre
+            id="output"
+          ><span class="placeholder">Your output will appear here...</span></pre>
+        </div>
+
+        <!-- Execution Result Panel -->
+        <div class="io-section result-section" id="resultSection">
+          <div class="io-header">
+            <h3><i class="bi bi-bar-chart-line"></i> Execution Result</h3>
+            <button class="io-collapse" id="resultCollapseBtn" title="Collapse">
+              <i class="bi bi-chevron-up"></i>
+            </button>
+          </div>
+          <div class="result-body" id="resultBody">
+            <div class="result-badge-row">
+              <span class="result-badge" id="resultBadge">
+                <i class="bi bi-circle"></i>
+                <span id="resultBadgeText">Not run yet</span>
+              </span>
+              <span class="result-finished" id="resultFinished"></span>
+            </div>
+            <div class="result-grid">
+              <div class="result-item">
+                <span class="result-label">Time</span>
+                <span class="result-value" id="resTime">--</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Memory</span>
+                <span class="result-value" id="resMemory">--</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Language</span>
+                <span class="result-value" id="resLanguage">--</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Status Code</span>
+                <span class="result-value" id="resStatus">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div class="bottom-toolbar">
+      <div class="toolbar-left">
+        <button class="pill" id="autoSaveBtn">
+          <i class="bi bi-cloud-check"></i> Auto Save
+          <span class="pill-state" id="autoSaveState">ON</span>
+        </button>
+        <button class="pill" id="themeBtn">
+          <i class="bi bi-palette"></i> Theme
+        </button>
+        <button class="pill" id="shortcutsBtn">
+          <i class="bi bi-keyboard"></i> Shortcuts
+        </button>
+      </div>
+      <div class="toolbar-right">
+        <button class="pill" id="copyOutputBtn">
+          <i class="bi bi-clipboard-check"></i> Copy Output
+        </button>
+        <button class="pill" id="downloadOutputBtn">
+          <i class="bi bi-download"></i> Download Output
+        </button>
+        <button class="pill danger" id="clearAllBtn">
+          <i class="bi bi-trash3"></i> Clear All
+        </button>
+      </div>
+    </div>
+
+    <div class="footer-credit">
+      Made with <i class="bi bi-heart-fill"></i> by Anshu Kumar
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading">
+      <div class="spinner-container">
+        <div class="spinner"></div>
+        <div class="spinner-text">Compiling & Running...</div>
+      </div>
+    </div>
+
+    <!-- Shortcuts Modal -->
+    <div class="modal-overlay" id="shortcutsModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3><i class="bi bi-keyboard"></i> Keyboard Shortcuts</h3>
+          <button class="modal-close" id="shortcutsCloseBtn">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="shortcut-row">
+            <span>Run code</span><kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+          </div>
+          <div class="shortcut-row">
+            <span>Reset code</span><kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
+            <kbd>R</kbd>
+          </div>
+          <div class="shortcut-row">
+            <span>New tab</span><kbd>Ctrl</kbd> + <kbd>T</kbd>
+          </div>
+          <div class="shortcut-row">
+            <span>Toggle theme</span><kbd>Ctrl</kbd> + <kbd>J</kbd>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <i class="bi bi-check-circle-fill"></i>
+      <span id="toast-message">Success!</span>
+    </div>
+
+    <!-- CodeMirror Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/clike/clike.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "compiler",
+  "version": "1.0.0",
+  "description": "Online code compiler backend",
+  "main": "Api.js",
+  "scripts": {
+    "start": "node Api.js",
+    "dev": "nodemon Api.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
