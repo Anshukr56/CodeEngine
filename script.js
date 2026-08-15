@@ -219,7 +219,7 @@ const backendURL =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:5000"
-    : "https://codeengine-9.onrender.com/";
+    : "https://codeengine-9.onrender.com";
 
 // ---- Download code button ----
 document.getElementById("downloadBtn").addEventListener("click", () => {
