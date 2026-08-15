@@ -6,7 +6,16 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://codeengine-wss0.onrender.com",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
+
+app.use(express.json());
+
 app.use(express.json());
 
 // Serve frontend files (index.html, script.js, style.css)
