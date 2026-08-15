@@ -4,8 +4,8 @@
   "description": "Online code compiler backend",
   "main": "Api.js",
   "scripts": {
-    "start": "node Api.js",
-    "dev": "nodemon Api.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^1.6.0",
