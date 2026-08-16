@@ -1,26 +1,37 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-const path = require("path");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import axios from "axios";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Serve frontend files
-app.use(express.static(__dirname));
+app.use(
+  cors({
+    origin: [
+      "https://codeengine-wss0.onrender.com",
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+app.use(express.json());
 
 const JUDGE0_URL = process.env.JUDGE0_URL;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
-// Serve index.html at "/"
+app.use(express.static(__dirname));
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Route to handle code execution
 app.post("/run", async (req, res) => {
   const { language, code, input } = req.body;
 
@@ -57,7 +68,7 @@ app.post("/run", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("Execution Error:", error.message);
+    console.error("Execution Error:", error.response?.data || error.message);
 
     res.status(500).json({
       error: "Execution failed",
