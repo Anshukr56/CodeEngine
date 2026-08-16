@@ -216,10 +216,11 @@ darkModeBtn.addEventListener("click", () => setPageTheme("dark"));
 
 // ---- Detect backend URL automatically ----
 const backendURL =
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1"
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1") &&
+  window.location.port !== "5000"
     ? "http://localhost:5000"
-    : "https://codeengine-9.onrender.com";
+    : window.location.origin;
 
 // ---- Download code button ----
 document.getElementById("downloadBtn").addEventListener("click", () => {
