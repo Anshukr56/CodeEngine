@@ -1,20 +1,18 @@
-import express from "express";
-import cors from "cors";
-import axios from "axios";
-import path from "path";
-import { fileURLToPath } from "url";
+const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+const path = require("path");
+require("dotenv").config();
 
 const app = express();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
     origin: [
       "https://codeengine-wss0.onrender.com",
+      "http://127.0.0.1:5501",
+      "http://localhost:5501",
       "http://localhost:5173",
-      "http://127.0.0.1:5173",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -23,10 +21,11 @@ app.use(
 
 app.use(express.json());
 
+// Serve frontend files
+app.use(express.static(__dirname));
+
 const JUDGE0_URL = process.env.JUDGE0_URL;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
-
-app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
