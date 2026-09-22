@@ -220,7 +220,7 @@ const backendURL =
     window.location.hostname === "127.0.0.1") &&
   window.location.port !== "5000"
     ? "http://localhost:5000"
-    : window.location.origin;
+    : "";
 
 // ---- Download code button ----
 document.getElementById("downloadBtn").addEventListener("click", () => {
@@ -318,6 +318,7 @@ async function runCode() {
       result.stderr?.trim() ||
       result.compile_output?.trim() ||
       result.message ||
+      result.error ||
       "⚠️ No output";
 
     document.getElementById("output").textContent = outputText;
