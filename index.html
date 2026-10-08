@@ -79,13 +79,9 @@
         <div class="editor-header">
           <div class="tab-bar" id="tabBar">
             <div class="tab active" data-index="0" data-lang="cpp">
-              <i class="bi bi-filetype-cpp"></i>
-              <span class="tab-name">main.cpp</span>
-              <i class="bi bi-x tab-close" title="Close tab"></i>
+              <i class="bi bi-filetype-cpp" id="tabIcon"></i>
+              <span class="tab-name" id="tabName">main.cpp</span>
             </div>
-            <button class="add-tab-btn" id="addTabBtn" title="New file">
-              <i class="bi bi-plus-lg"></i>
-            </button>
           </div>
           <div class="header-actions">
             <select id="language">
@@ -97,16 +93,6 @@
               <button class="btn run" id="runBtn" title="Run Code (Ctrl+Enter)">
                 <i class="bi bi-play-fill"></i> Run
                 <span class="shortcut">Ctrl+Enter</span>
-              </button>
-              <button class="btn clear" id="clearBtn" title="Reset Code">
-                <i class="bi bi-arrow-counterclockwise"></i>
-              </button>
-              <button
-                class="btn download"
-                id="downloadBtn"
-                title="Download Code"
-              >
-                <i class="bi bi-download"></i>
               </button>
             </div>
           </div>
